@@ -45,7 +45,7 @@ The dataset contains **450K rows** with features like:
 1. Open the web app in your browser: **http://127.0.0.1:5000/**
 2. Upload customer data or manually input details
 3. Click **Predict** to check if a customer is likely to churn
-4. The app will display **Churned (Yes/No)** with confidence scores
+4. The app will display **CHURN/ NO CHURN**
 
 ## 📸 Screenshots
 ### **🏠 Home Page**
