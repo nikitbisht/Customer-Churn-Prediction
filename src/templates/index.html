@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Prediction</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Customer Churn Prediction</h1>
+        <form action="/predict" method="post">  
+            <label>Age</label>
+            <input type="number" name="age" min="18" max="70" required>
+
+            <fieldset>
+                <legend>Gender</legend>
+                <label><input type="radio" name="gender" value="Male" required> Male</label>
+                <label><input type="radio" name="gender" value="Female"> Female</label>
+            </fieldset>
+
+            <label>Tenure (Months)</label>
+            <input type="number" name="tenure" min="1" max="60" required>
+
+            <label>Support Calls</label>
+            <input type="number" name="support_calls" min="0" max="30" required>
+
+            <label>Payment Delay</label>
+            <input type="number" name="payment_delay" min="0" max="30" required>
+
+            <fieldset>
+                <legend>Subscription Type</legend>
+                <label><input type="radio" name="subscription_type" value="Premium"> Premium</label>
+                <label><input type="radio" name="subscription_type" value="Standard" required> Standard</label>
+                <label><input type="radio" name="subscription_type" value="Basic"> Basic</label>
+            </fieldset>
+            
+            <fieldset>
+                <legend>Contract Length</legend>
+                <label><input type="radio" name="contract_length" value="Annual"> Annual</label>
+                <label><input type="radio" name="contract_length" value="Quarterly"> Quarterly</label>
+                <label><input type="radio" name="contract_length" value="Monthly" required> Monthly</label>
+            </fieldset>
+            
+
+            <label>Total Spend</label>
+            <input type="number" name="total_spend" min="0" required>
+
+            <label>Last Interaction (Days Ago)</label>
+            <input type="number" name="last_interaction" min="0" required>
+
+            <button type="submit">Predict Churn</button>
+        </form>
+
+        {% if prediction %}
+            <div class="prediction_result">
+                <h3>Prediction Result:</h3>
+                <p class="result_text">{{ prediction }}</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
