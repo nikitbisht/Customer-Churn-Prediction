@@ -1,59 +1,121 @@
-# Customer Churn Prediction Model
+# 📌 Customer Churn Prediction — XGBoost + Streamlit
 
-🚀 **Predict whether a customer will continue their subscription or churn using Machine Learning!**
+This project predicts customer churn for a telecom subscription platform using machine learning.  
+It supports batch CSV uploads and returns churn probabilities and churn labels for each customer.
 
-## 📌 Overview
-This project builds a **Customer Churn Prediction Model** using **Random Forest** with **hyperparameter tuning (Optuna)**. The model analyzes customer data (like subscription type, payment delays, and interactions) to predict whether they will leave the platform or continue.
+## 🚀 Key Features
 
-Businesses like **Netflix, Spotify, and other OTT platforms** use similar models to identify potential churners and offer targeted discounts or promotions to retain them.
+- XGBoost model optimized using **GridSearchCV**
+- Achieved **~84% ROC-AUC** on ~7K customer dataset
+- Used **Pipeline + ColumnTransformer** for preprocessing
+- **Batch CSV inference** (no manual UI form needed)
+- Streamlit interface for easy usage
+- Outputs downloadable prediction CSV
+- Threshold-based churn classification
 
-## 📝 Dataset
-The dataset contains **450K rows** with features like:
-- **Customer Demographics**: Age, Gender
-- **Subscription Details**: Subscription Type, Contract Length
-- **Engagement**: Tenure, Support Calls, Last Interaction
-- **Payment Behavior**: Payment Delays, Total Expenses
+## 🧠 Modeling Approach
 
-## ⚙️ Technologies Used
-- Python
-- Pandas, NumPy, Matplotlib
-- Scikit-learn (Random Forest)
-- Optuna (Hyperparameter Tuning)
-- Flask (for Web UI)
+Training steps included:
 
-## 🔥 Model Performance
-✅ **Accuracy:** 99%
-✅ **Optimized with Optuna** for better performance
-✅ **Handles large datasets (450K rows) efficiently**
+- Data cleaning (`TotalCharges`)
+- Dropping `customerID`
+- OneHotEncoding categorical features
+- Numeric passthrough
+- Pipeline + GridSearchCV
+- Metric: ROC-AUC
 
-## 🖥 Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/nikitbisht/Customer-Churn-Prediction.git
-   cd customer-churn-prediction
-   ```
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Run the Flask app:
-   ```bash
-   python app.py
-   ```
+## 📂 Input Format (CSV)
 
-## 🚀 Usage
-1. Open the web app in your browser: **http://127.0.0.1:5000/**
-2. Upload customer data or manually input details
-3. Click **Predict** to check if a customer is likely to churn
-4. The app will display **CHURN/ NO CHURN**
+```
+customerID
+gender
+SeniorCitizen
+Partner
+Dependents
+tenure
+PhoneService
+MultipleLines
+InternetService
+OnlineSecurity
+OnlineBackup
+DeviceProtection
+TechSupport
+StreamingTV
+StreamingMovies
+Contract
+PaperlessBilling
+PaymentMethod
+MonthlyCharges
+TotalCharges
+```
 
-## 📸 Screenshots
-### **🏠 Home Page**
-![Home Page](src/images/home_page.PNG)
+## 🧹 Runtime Preprocessing
 
-### **📊 Prediction Result**
-_When clicking on "Predict" button:_
-![Prediction Result](src/images/detail.PNG)
+- Blank `TotalCharges` → NaN → **Drop row**
+- Remaining columns passed directly to Pipeline
+- Pipeline handles encoding
+
+## 📈 Output Format
+
+```
+customerID
+churn_prob   (0.0–1.0)
+churn_label  (0 or 1)
+```
+
+Threshold used: **0.35**
+
+## 🖥 Tech Stack
+
+| Component | Library |
+|---|---|
+| Model | XGBoost |
+| Encoding | ColumnTransformer + OneHotEncoder |
+| Tuning | GridSearchCV |
+| Deployment | Streamlit |
+| Serialization | Joblib |
+| Data Handling | Pandas / NumPy |
+
+## 🔧 How to Run
+
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+## 📁 Repository Structure
+
+```
+├── app.py                   # Streamlit App
+├── xgb_churn_model.pkl      # Trained Pipeline + Model
+├── sample.csv               # Example Input CSV
+├── README.md
+└── requirements.txt
+```
+
+## 📊 Performance Summary
+
+| Metric | Score |
+|---|---|
+| ROC-AUC | ~0.84 |
+| Accuracy | ~0.80 |
+| Precision (Churn) | ~0.66 |
+| Recall (Churn) | ~0.50 |
+
+## 🌱 Use Cases
+
+- Telecom churn prediction
+- Subscription-based platforms
+- Customer retention analytics
+- Batch scoring systems
+
+## 🏁 Future Improvements
+
+- SHAP feature importance
+- Cost-based thresholding
+- REST API (FastAPI)
+- Visualization dashboard
 
 ## 📜 License
-This project is open-source under the MIT License.
+
+Open for non-commercial educational use.
